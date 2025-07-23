@@ -1,0 +1,5 @@
+graphics dimensions:
+
+- number squares: 100x100 pixels
+- drop zones: 100x100 pixels
+- check button: 150x50 pixels

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ordering Game</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #game-container {
+            text-align: center;
+        }
+        h1 {
+            font-size: 3em;
+        }
+        p {
+            font-size: 1.5em;
+        }
+        #item-list {
+            list-style: none;
+            padding: 0;
+            margin: 40px 0;
+            display: flex;
+            gap: 20px;
+        }
+        .item {
+            padding: 20px 40px;
+            border: 2px solid #ccc;
+            cursor: pointer;
+            font-size: 2em;
+        }
+        .item.selected {
+            background-color: #aaddff;
+            border-color: #337ab7;
+        }
+        button {
+            font-size: 1.5em;
+            padding: 10px 20px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>Ordering Game</h1>
+        <p>Click the items in the correct order!</p>
+        <ul id="item-list">
+        </ul>
+        <p id="message"></p>
+        <button id="check-button">Check</button>
+        <button id="reset-button">Reset</button>
+    </div>
+    <script src="ordering_game.js"></script>
+</body>
+</html>
