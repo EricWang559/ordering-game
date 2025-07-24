@@ -41,6 +41,8 @@ original_pos = None
 offset_x, offset_y = 0, 0
 game_over = False
 score = 0
+start_time = pygame.time.get_ticks()
+elapsed_time = 0
 
 # Button
 check_button_rect = pygame.Rect(SCREEN_WIDTH // 2 - 75, 500, 150, 50)
@@ -59,6 +61,7 @@ def calculate_score():
     return current_score
 
 def draw_elements():
+    global elapsed_time
     screen.fill(WHITE)
 
     # Draw drop zones
@@ -77,6 +80,12 @@ def draw_elements():
     # Display score
     score_text = small_font.render(f"Correct: {score}/5", True, BLACK)
     screen.blit(score_text, (50, 50))
+
+    # Display timer
+    if not game_over:
+        elapsed_time = (pygame.time.get_ticks() - start_time) // 1000
+    timer_text = small_font.render(f"Time: {elapsed_time}s", True, BLACK)
+    screen.blit(timer_text, (SCREEN_WIDTH - 150, 50))
 
     # Draw check button
     all_placed = all(any(rect.colliderect(zone) for zone in drop_zones) for rect in item_rects)
@@ -165,5 +174,6 @@ while running:
                     item_rects.append(pygame.Rect(150 * i + 50, 400, 100, 100))
                 game_over = False
                 score = 0
+                start_time = pygame.time.get_ticks()
 
     draw_elements()
