@@ -24,6 +24,8 @@ font = pygame.font.Font(None, 74)
 small_font = pygame.font.Font(None, 36)
 items = list(range(5))
 shuffled_items = random.sample(items, 5)
+while shuffled_items == items:
+    shuffled_items = random.sample(items, 5)
 
 # Rectangles for items and drop zones
 item_rects = []

@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const itemList = document.getElementById('item-list');
     const message = document.getElementById('message');
-    const checkButton = document.getElementById('check-button');
     const resetButton = document.getElementById('reset-button');
     const instruction = document.querySelector('#game-container p');
     const timerDisplay = document.getElementById('timer');
@@ -36,11 +35,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function initGame() {
         instruction.textContent = 'Click two items to swap them. Get them in order!';
         items = [1, 2, 3, 4, 5];
-        
-        // IMPORTANT: DO NOT CHANGE THE LINE BELOW
-        correctOrder = shuffle([...items]); // DO NOT CHANGE THIS
+        correctOrder = shuffle([...items]);
+        let shuffledItems = shuffle([...items]);
 
-        const shuffledItems = shuffle([...items]);
+        // Ensure the shuffled order is not the correct order
+        while (JSON.stringify(shuffledItems) === JSON.stringify(correctOrder)) {
+            shuffledItems = shuffle([...items]);
+        }
 
         itemList.innerHTML = '';
         shuffledItems.forEach(itemText => {
@@ -52,9 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         selectedItem = null;
-        message.textContent = '';
+        message.textContent = `0 out of ${correctOrder.length} are in the correct position.`;
+        message.style.color = 'red';
+        stopTimer(); // Stop any existing timer
         startTimer();
-        checkOrder(); // Check at the start
     }
 
     function handleItemClick(item) {
@@ -94,7 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // checkButton.addEventListener('click', checkOrder); // No longer needed
     resetButton.addEventListener('click', initGame);
 
     initGame();
