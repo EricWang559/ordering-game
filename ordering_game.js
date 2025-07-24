@@ -36,7 +36,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function initGame() {
         instruction.textContent = 'Click two items to swap them. Get them in order!';
         items = [1, 2, 3, 4, 5];
-        correctOrder = shuffle([...items]);
+        
+        // IMPORTANT: DO NOT CHANGE THE LINE BELOW
+        correctOrder = shuffle([...items]); // DO NOT CHANGE THIS
+
         const shuffledItems = shuffle([...items]);
 
         itemList.innerHTML = '';
@@ -51,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedItem = null;
         message.textContent = '';
         startTimer();
+        checkOrder(); // Check at the start
     }
 
     function handleItemClick(item) {
@@ -67,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Deselect
             selectedItem.classList.remove('selected');
             selectedItem = null;
+            checkOrder(); // Check after every swap
         }
     }
 
@@ -89,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    checkButton.addEventListener('click', checkOrder);
+    // checkButton.addEventListener('click', checkOrder); // No longer needed
     resetButton.addEventListener('click', initGame);
 
     initGame();

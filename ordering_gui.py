@@ -61,7 +61,7 @@ def calculate_score():
     return current_score
 
 def draw_elements():
-    global elapsed_time
+    global elapsed_time, score, game_over
     screen.fill(WHITE)
 
     # Draw drop zones
@@ -87,12 +87,12 @@ def draw_elements():
     timer_text = small_font.render(f"Time: {elapsed_time}s", True, BLACK)
     screen.blit(timer_text, (SCREEN_WIDTH - 150, 50))
 
-    # Draw check button
+    # Automatically check score when all items are placed
     all_placed = all(any(rect.colliderect(zone) for zone in drop_zones) for rect in item_rects)
-    button_color = BUTTON_COLOR if all_placed else BUTTON_DISABLED_COLOR
-    pygame.draw.rect(screen, button_color, check_button_rect)
-    button_text = small_font.render("Check", True, BLACK)
-    screen.blit(button_text, (check_button_rect.centerx - button_text.get_width() // 2, check_button_rect.centery - button_text.get_height() // 2))
+    if all_placed:
+        score = calculate_score()
+        if score == 5:
+            game_over = True
 
 
     if game_over:
@@ -115,21 +115,15 @@ while running:
         if not game_over:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:  # Left click
-                    # Check button click
-                    all_placed = all(any(rect.colliderect(zone) for zone in drop_zones) for rect in item_rects)
-                    if check_button_rect.collidepoint(event.pos) and all_placed:
-                        score = calculate_score()
-                        if score == 5:
-                            game_over = True
-                    else: # Check for item click
-                        for i, rect in enumerate(item_rects):
-                            if rect.collidepoint(event.pos):
-                                selected_item = i
-                                selected_rect = rect
-                                original_pos = rect.topleft
-                                offset_x = event.pos[0] - rect.x
-                                offset_y = event.pos[1] - rect.y
-                                break
+                    # Check for item click
+                    for i, rect in enumerate(item_rects):
+                        if rect.collidepoint(event.pos):
+                            selected_item = i
+                            selected_rect = rect
+                            original_pos = rect.topleft
+                            offset_x = event.pos[0] - rect.x
+                            offset_y = event.pos[1] - rect.y
+                            break
 
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1 and selected_item is not None:
